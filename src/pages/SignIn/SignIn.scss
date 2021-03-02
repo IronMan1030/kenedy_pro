@@ -1,0 +1,33 @@
+.form-wrapper {
+  h3 {
+    margin-top: 20px;
+    font-size: 30px;
+    font-weight: 700;
+    color: #131111;
+  }
+  p {
+    color: red;
+    text-align: center;
+  }
+  .form-block {
+    margin-top: 35px;
+    .login-btn {
+      background: #eee;
+      padding: 8px;
+      border-radius: 5px;
+      margin-bottom: 5px;
+      cursor: pointer;
+      img {
+        margin-left: 15px;
+      }
+      span {
+        margin-left: 25px;
+        margin-top: 3px;
+        color: #797570;
+      }
+      &:hover {
+        background: #e4e4e4;
+      }
+    }
+  }
+}

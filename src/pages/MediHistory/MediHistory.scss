@@ -1,0 +1,46 @@
+.history-container {
+  display: none;
+  .history-wrapper {
+    position: relative;
+    display: inline-block;
+    background-color: #fafafa;
+    padding-left: 23px;
+    padding-right: 23px;
+    width: 100%;
+    height: 100%;
+    h3 {
+      line-height: 1.2;
+      font-size: 16px;
+      font-weight: 400;
+      color: #000000;
+      margin-bottom: 0;
+      margin-left: 10px;
+    }
+    svg {
+      font-size: 22px;
+      margin-top: -2px;
+    }
+    .history-list-item {
+      padding: 12px;
+      border-radius: 8px;
+      background-color: white;
+      h4 {
+        line-height: 1.2;
+        font-size: 16px;
+        font-weight: 400;
+        color: #000000;
+      }
+      p {
+        line-height: 1.2;
+        font-weight: 400;
+        font-size: 9px;
+        color: #6a6868;
+        margin-bottom: 0;
+      }
+    }
+    .close-btn {
+      background-color: #c3c3c3;
+      border-color: #c3c3c3;
+    }
+  }
+}
