@@ -24,10 +24,10 @@ function App() {
 
   return (
     <div className="App">
-      <Router>{isAuth ? <MicBegin /> : <SignIn />}</Router>
-      {/* <Router>
-        <MicBegin />
-      </Router> */}
+      {/* <Router>{isAuth ? <MicBegin /> : <SignIn />}</Router> */}
+      <Router>
+        <SignIn />
+      </Router>
     </div>
   );
 }
