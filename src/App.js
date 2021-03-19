@@ -15,19 +15,19 @@ function App() {
   useEffect(() => {
     // const { component, props } = getCurrent();
     // const components = getComponentStack();
-    // chrome.storage.local.get(["id_token"], function (result) {
-    //   if (result.id_token) {
-    //     setIsAuth(true);
-    //   }
-    // });
+    chrome.storage.local.get(["id_token"], function (result) {
+      if (result.id_token) {
+        setIsAuth(true);
+      }
+    });
   }, []);
 
   return (
     <div className="App">
-      {/* <Router>{isAuth ? <MicBegin /> : <SignIn />}</Router> */}
-      <Router>
+      <Router>{isAuth ? <MicBegin /> : <SignIn />}</Router>
+      {/* <Router>
         <MicBegin />
-      </Router>
+      </Router> */}
     </div>
   );
 }

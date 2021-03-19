@@ -18,14 +18,14 @@ function Listening() {
 
   const handleClickStopRecording = async () => {
     chrome.runtime.sendMessage({ type: "stopRecording" });
-    chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
-      if (request.type === "sendingAudio") {
-        console.log(request.data);
-        let res = axios.post("http://52.60.65.17/api/v1/user/record", { stream: request.data });
-        console.log(res.data);
-      }
-    });
-    goBack();
+    // chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
+    //   if (request.type === "sendingAudio") {
+    //     console.log(request.data);
+    //     let res = axios.post("http://52.60.65.17/api/v1/user/record", { stream: request.data });
+    //     console.log(res.data);
+    //   }
+    // });
+    // goBack();
   };
 
   return (
