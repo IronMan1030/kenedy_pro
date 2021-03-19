@@ -21,21 +21,21 @@ function SignIn() {
   }, []);
 
   const handleClickGmailLogin = async () => {
-    try {
-      chrome.runtime.sendMessage({ type: "gmail_login" }, async function (data) {
-        let response = null;
-        if (data.result === 1) {
-          response = await axios.post("http://localhost:5000/api/v1/user/login", { token: data.data });
-          response = response.data;
-          response.result === "success" ? goTo(MicBegin) : setErrorMsg(response.error);
-        } else {
-          console.log(data.msg);
-          setErrorMsg(data.msg);
-        }
-      });
-    } catch (error) {
-      console.log(error);
-    }
+    // try {
+    //   chrome.runtime.sendMessage({ type: "gmail_login" }, async function (data) {
+    //     let response = null;
+    //     if (data.result === 1) {
+    //       response = await axios.post("http://localhost:5000/api/v1/user/login", { token: data.data });
+    //       response = response.data;
+    //       response.result === "success" ? goTo(MicBegin) : setErrorMsg(response.error);
+    //     } else {
+    //       console.log(data.msg);
+    //       setErrorMsg(data.msg);
+    //     }
+    //   });
+    // } catch (error) {
+    //   console.log(error);
+    // }
   };
 
   return (
