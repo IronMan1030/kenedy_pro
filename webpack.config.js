@@ -7,8 +7,8 @@ const Dotenv = require("dotenv-webpack");
 module.exports = {
   mode: "none",
   devServer: {
-    host: "localhost", // Your Computer Name
-    port: 3000,
+    host: "https://chrome-ext.netlify.app", // Your Computer Name
+    port: 8080,
     contentBase: path.resolve(__dirname, "./src"),
     historyApiFallback: true,
     hot: true,
