@@ -4,40 +4,49 @@ import { LogoIcon } from "../../assets/icons/LogoIcon";
 import GoogleIcon from "../../assets/images/google_icon.png";
 import { goTo } from "react-chrome-extension-router";
 import MicBegin from "../MicBegin/MicBegin";
+import MicPermission from "../MicPermission/MicPermission";
 import axios from "axios";
 import "./SignIn.scss";
-
+import regeneratorRuntime from "regenerator-runtime";
 function SignIn() {
-  // const console = {
-  //   log: (info) => chrome.extension.getBackgroundPage().console.log(info),
-  // };
+  const console = {
+    log: (info) => chrome.extension.getBackgroundPage().console.log(info),
+  };
   const [errorMsg, setErrorMsg] = useState(null);
 
   useEffect(() => {
     document.querySelector("body").style.height = "240px";
-    // chrome.tabs.executeScript({
-    //   code: 'console.log("addd")',
-    // });
   }, []);
 
   const handleClickGmailLogin = async () => {
     try {
-      chrome.runtime.sendMessage({ type: "gmail_login" }, async function (data) {
-        let response = null;
-        if (data.result === 1) {
-          response = await axios.post("http://localhost:5000/api/v1/user/login", { token: data.data });
-          response = response.data;
-          response.result === "success" ? goTo(MicBegin) : setErrorMsg(response.error);
-        } else {
-          console.log(data.msg);
-          setErrorMsg(data.msg);
+      chrome.runtime.sendMessage(
+        { type: "gmail_login", clientID: process.env.REACT_APP_GOOGLE_CLIENT_ID },
+        async function (data) {
+          if (data.result === 1) {
+            try {
+              let response = await axios.post(`${process.env.REACT_APP_SERVER_URL}/api/v1/user/login`, {
+                token: data.data,
+              });
+              if (parseInt(response.data.responseCode) === 1) {
+                chrome.storage.local.set({ profile: response.data.profile });
+                goTo(MicPermission);
+              } else {
+                setErrorMsg(response.data.msg);
+              }
+            } catch (error) {
+              setErrorMsg("Database failed!");
+            }
+          } else {
+            setErrorMsg(data.msg);
+          }
         }
-      });
+      );
     } catch (error) {
-      console.log(error);
+      console.log(`${error}`);
     }
   };
-
+  console.log(errorMsg);
   return (
     <div className="form-wrapper">
       <div className="logo-wrapper">

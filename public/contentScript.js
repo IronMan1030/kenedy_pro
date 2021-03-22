@@ -1,56 +1,70 @@
 /*global chrome*/
-let recorder;
+// let recorder;
+let recordAudio;
 chrome.runtime.onMessage.addListener(async function (request, sender, sendResponse) {
-  if (request.message === "startRecording") {
+  if (request.message === "startRecordingFromContent") {
     console.log("start");
-    recorder = await recordAudio();
-    recorder.start();
-  } else if (request.message === "stopRecording") {
-    const audio = await recorder.stop();
-    audio.play();
-    let blobFile = audio.audioChunks[0];
-    let reader = new window.FileReader();
-    reader.readAsDataURL(blobFile);
-    reader.onloadend = function () {
-      base64data = reader.result;
-      chrome.runtime.sendMessage({ type: "sendingAudio", data: base64data });
-    };
+    startTranscription();
+  } else if (request.message === "stopRecordingFromContent") {
+    console.log("stop");
+    recordAudio.stopRecording(function () {
+      recordAudio.getDataURL(function (audioDataURL) {
+        chrome.runtime.sendMessage({ type: "sendStream", data: audioDataURL });
+      });
+    });
+  } else if (request.message === "requestAllowMic") {
+    micPermission({ audio: true }, "Enabled Audio");
+  } else if (request.message === "isPermission") {
+    navigator.permissions.query({ name: "microphone" }).then(
+      ({ state }) => chrome.runtime.sendMessage({ type: "resultPermission", data: state }),
+      (e) => console.log(e.name + ": " + e.message)
+    );
   }
   return true;
 });
 
-const recordAudio = () => {
-  return new Promise((resolve) => {
-    navigator.mediaDevices.getUserMedia({ audio: true }).then((stream) => {
-      const mediaRecorder = new MediaRecorder(stream);
-      const audioChunks = [];
-
-      mediaRecorder.addEventListener("dataavailable", (event) => {
-        audioChunks.push(event.data);
-      });
-
-      const start = () => {
-        mediaRecorder.start();
-      };
-
-      const stop = () => {
-        return new Promise((resolve) => {
-          mediaRecorder.addEventListener("stop", () => {
-            const audioBlob = new Blob(audioChunks);
-            const audioUrl = URL.createObjectURL(audioBlob);
-            const audio = new Audio(audioUrl);
-            const play = () => {
-              audio.play();
-            };
-
-            resolve({ audioBlob, audioUrl, play, audioChunks });
+function micPermission(param, msg) {
+  console.log(param);
+  if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
+    navigator.mediaDevices
+      .getUserMedia(param)
+      .then(() => console.log(msg))
+      .catch(() => {
+        navigator.mediaDevices
+          .getUserMedia(param)
+          .then(() => console.log(msg))
+          .catch(() => {
+            navigator.mediaDevices
+              .getUserMedia(param)
+              .then(() => console.log(msg))
+              .catch(() => {
+                console.log("error");
+                chrome.runtime.sendMessage({ type: "resultPermission", data: "denied" });
+              });
           });
+      });
+  }
+}
 
-          mediaRecorder.stop();
-        });
-      };
-
-      resolve({ start, stop });
-    });
-  });
-};
+function startTranscription() {
+  navigator.getUserMedia(
+    {
+      audio: true,
+    },
+    function (stream) {
+      recordAudio = RecordRTC(stream, {
+        type: "audio",
+        mimeType: "audio/webm",
+        sampleRate: 44100,
+        desiredSampRate: 16000,
+        recorderType: StereoAudioRecorder,
+        numberOfAudioChannels: 1,
+        checkForInactiveTracks: false,
+      });
+      recordAudio.startRecording();
+    },
+    function (error) {
+      console.error(JSON.stringify(error));
+    }
+  );
+}

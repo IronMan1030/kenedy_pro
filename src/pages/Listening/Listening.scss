@@ -7,4 +7,32 @@
     color: #cccccc;
     margin-top: 50px;
   }
+  h4 {
+    font-weight: 500;
+    color: #131111;
+    margin-top: 20px;
+  }
+  .content-wrapper {
+    margin-top: 50px;
+    .listening-cell {
+      label {
+        font-weight: 400;
+        font-size: 9px;
+        color: #ff8080;
+      }
+      h6 {
+        font-weight: 500;
+        font-size: 16px;
+        color: #000000;
+      }
+    }
+  }
+  .error-wrapper {
+    margin-top: 20px;
+    h5 {
+      font-size: 20px;
+      color: #c42753;
+      font-weight: 600;
+    }
+  }
 }

@@ -1,0 +1,35 @@
+.item-wrapper {
+  position: relative;
+  background-color: #eee;
+  padding-left: 23px;
+  padding-right: 23px;
+  width: 100%;
+  height: 100%;
+  border-radius: 8px;
+  .item-content {
+    padding-top: 5px;
+    padding-bottom: 5px;
+    span {
+      display: inline-block;
+      margin-left: 20px;
+      color: #1988ff;
+      font-size: 12px;
+      cursor: pointer;
+    }
+    h3 {
+      display: inline-block;
+      font-size: 16px;
+      font-weight: 400;
+      color: #000000;
+    }
+    p {
+      font-weight: 400;
+      font-size: 9px !important;
+      color: #6a6868 !important;
+      margin-bottom: 0;
+      //   white-space: nowrap;
+      //   overflow: hidden;
+      //   text-overflow: ellipsis;
+    }
+  }
+}
