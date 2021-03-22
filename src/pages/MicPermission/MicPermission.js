@@ -38,7 +38,7 @@ function MicPermission({ isClose }) {
   });
 
   useEffect(() => {
-    document.querySelector("body").style.height = "200px";
+    document.querySelector("body").style.height = "500px";
   }, []);
 
   const handleSwitchMicPermission = () => {
@@ -85,7 +85,7 @@ function MicPermission({ isClose }) {
         </div>
       </div>
       <button type="button" className="btn btn-primary mt-4 next-button" onClick={handleClickNext}>
-        Next
+        Next-test
       </button>
     </div>
   );
