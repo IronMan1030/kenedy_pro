@@ -38,7 +38,7 @@ function MicPermission({ isClose }) {
   });
 
   useEffect(() => {
-    document.querySelector("body").style.height = "500px";
+    document.querySelector("body").style.height = "200px";
   }, []);
 
   const handleSwitchMicPermission = () => {
