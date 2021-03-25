@@ -1,8 +1,32 @@
 .permission-wrapper {
   margin-top: 30px;
-  .next-button {
+  .notice-wrapper {
+    font-size: 14px;
+    color: #333333;
+  }
+  .next-btn-hide {
+    display: none;
+  }
+  .next-btn-show {
     display: block;
     width: 100%;
+    background-color: #009aff !important;
+  }
+  p {
+    color: #c42753;
+    margin-top: 30px;
+    font-size: 20px;
+    font-weight: 500;
+  }
+  .left-item {
+    span {
+      font-size: 20px;
+      font-weight: 500;
+      color: #000000;
+    }
+  }
+  .right-item {
+    margin-top: 3px;
   }
   .mic-permission-switch {
     position: relative;

@@ -1,6 +1,5 @@
 /*global chrome*/
 import React, { useState, useEffect } from "react";
-import { LogoIcon } from "../../assets/icons/LogoIcon";
 import { MicIcon } from "../../assets/icons/MicIcon";
 import StopListeningIcon from "../../assets/images/stop_listening_icon.png";
 import Prescription from "../Prescription/Prescription";
@@ -8,6 +7,8 @@ import { goTo } from "react-chrome-extension-router";
 import axios from "axios";
 import "./Listening.scss";
 import MicBegin from "../MicBegin/MicBegin";
+import Footer from "../../components/Footer/Footer";
+import TopLogo from "../../components/TopLogo/TopLogo";
 import regeneratorRuntime from "regenerator-runtime";
 
 const getObjectFromLocalStorage = async (key) => {
@@ -48,6 +49,7 @@ const saveAudio = async (param) => {
     const luisEntities = response.data.result.prediction.entities;
 
     let drugNameFromLuis = "";
+    let drugTotalFromLuis = "";
     let drugDosageFromLuis = "";
     let drugSizeFromLuis = "";
     let drugDurationFromLuis = "";
@@ -60,12 +62,13 @@ const saveAudio = async (param) => {
     if (response.data.result) {
       audioName = response.data.result.audioName;
     }
-
-    if (response.data.result.query) {
+    if (response.data.result.original) {
+      queryFromLuis = response.data.result.original;
+    } else if (response.data.result.query) {
       queryFromLuis = response.data.result.query;
     }
     if (luisEntities.drugName) {
-      drugNameFromLuis = luisEntities.drugName[0][0];
+      drugNameFromLuis = luisEntities.drugName[0];
     }
     if (luisEntities.drugSize) {
       drugSizeFromLuis = luisEntities.drugSize[0];
@@ -76,15 +79,15 @@ const saveAudio = async (param) => {
     if (luisEntities.drugInstructions) {
       drugInstructionsFromLuis = luisEntities.drugInstructions[0];
     }
+    if (luisEntities.drugTotal) {
+      drugTotalFromLuis = luisEntities.drugTotal[0];
+    }
     if (luisEntities.drugDosage) {
       drugDosageFromLuis = luisEntities.drugDosage[0];
     }
     if (luisEntities.drugDuration) {
       drugDurationFromLuis = luisEntities.drugDuration[0];
     }
-    // if (luisEntities.drugTotal) {
-    //   luisRefills = luisEntities.drugTotal[0];
-    // }
     if (luisEntities.drugRepeat) {
       drugRepeatFromLuis = luisEntities.drugRepeat[0];
     }
@@ -94,6 +97,7 @@ const saveAudio = async (param) => {
 
     let prescriptionData = JSON.stringify({
       drugName: drugNameFromLuis,
+      drugTotal: drugTotalFromLuis,
       drugDosage: drugDosageFromLuis,
       drugSize: drugSizeFromLuis,
       drugDuration: drugDurationFromLuis,
@@ -157,7 +161,7 @@ function Listening({ toListening }) {
   return (
     <div className="listening-wrapper mb-3">
       <div className="logo-wrapper">
-        <LogoIcon />
+        <TopLogo />
       </div>
       <h3>{isListening ? "Processing" : "Click to stop"}</h3>
       <div className="mt-5 mb-3">
@@ -169,6 +173,7 @@ function Listening({ toListening }) {
           <img src={StopListeningIcon} alt="ListeningIcon" width="90" height="90" onClick={handleClickStopRecording} />
         )}
       </div>
+      <Footer />
     </div>
   );
 }

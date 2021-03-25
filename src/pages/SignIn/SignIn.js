@@ -1,13 +1,15 @@
 /*global chrome*/
 import React, { useState, useEffect } from "react";
-import { LogoIcon } from "../../assets/icons/LogoIcon";
 import GoogleIcon from "../../assets/images/google_icon.png";
 import { goTo } from "react-chrome-extension-router";
 import MicBegin from "../MicBegin/MicBegin";
 import MicPermission from "../MicPermission/MicPermission";
+import Footer from "../../components/Footer/Footer";
+import TopLogo from "../../components/TopLogo/TopLogo";
 import axios from "axios";
 import "./SignIn.scss";
 import regeneratorRuntime from "regenerator-runtime";
+
 function SignIn() {
   const console = {
     log: (info) => chrome.extension.getBackgroundPage().console.log(info),
@@ -50,7 +52,7 @@ function SignIn() {
   return (
     <div className="form-wrapper">
       <div className="logo-wrapper">
-        <LogoIcon />
+        <TopLogo />
       </div>
       <h3>Kennedy</h3>
       <div className="form-block">
@@ -60,6 +62,7 @@ function SignIn() {
         </div>
       </div>
       <p>{errorMsg}</p>
+      <Footer />
     </div>
   );
 }

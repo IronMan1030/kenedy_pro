@@ -1,24 +1,37 @@
 /*global chrome*/
 // let recorder;
 let recordAudio;
+let mediaStream;
 chrome.runtime.onMessage.addListener(async function (request, sender, sendResponse) {
   if (request.message === "startRecordingFromContent") {
     console.log("start");
     startTranscription();
   } else if (request.message === "stopRecordingFromContent") {
     console.log("stop");
-    recordAudio.stopRecording(function () {
-      recordAudio.getDataURL(function (audioDataURL) {
-        chrome.runtime.sendMessage({ type: "sendStream", data: audioDataURL });
+
+    if (recordAudio) {
+      recordAudio.stopRecording(function () {
+        recordAudio.getDataURL(function (audioDataURL) {
+          chrome.runtime.sendMessage({ type: "sendStream", data: audioDataURL });
+        });
       });
-    });
+    }
+    if (mediaStream) {
+      //removes recording indicator on windows
+      mediaStream.stop();
+      if (mediaStream.getAudioTracks()) {
+        // removes recording indicator on chrome
+        mediaStream.getAudioTracks()[0].stop();
+      }
+    }
   } else if (request.message === "requestAllowMic") {
+    console.log("requestAllowMic - call micPermission()");
     micPermission({ audio: true }, "Enabled Audio");
   } else if (request.message === "isPermission") {
-    navigator.permissions.query({ name: "microphone" }).then(
-      ({ state }) => chrome.runtime.sendMessage({ type: "resultPermission", data: state }),
-      (e) => console.log(e.name + ": " + e.message)
-    );
+    navigator.permissions.query({ name: "microphone" }).then(({ state }) => {
+      console.log("isPermission - tx - resultPermission: " + state);
+      chrome.runtime.sendMessage({ type: "resultPermission", data: state });
+    });
   }
   return true;
 });
@@ -28,7 +41,9 @@ function micPermission(param, msg) {
   if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
     navigator.mediaDevices
       .getUserMedia(param)
-      .then(() => console.log(msg))
+      .then(() => {
+        console.log("micPermission " + msg);
+      })
       .catch(() => {
         navigator.mediaDevices
           .getUserMedia(param)
@@ -38,7 +53,7 @@ function micPermission(param, msg) {
               .getUserMedia(param)
               .then(() => console.log(msg))
               .catch(() => {
-                console.log("error");
+                console.log("micPermission - tx - resultPermission: denied");
                 chrome.runtime.sendMessage({ type: "resultPermission", data: "denied" });
               });
           });
@@ -52,6 +67,7 @@ function startTranscription() {
       audio: true,
     },
     function (stream) {
+      mediaStream = stream;
       recordAudio = RecordRTC(stream, {
         type: "audio",
         mimeType: "audio/webm",

@@ -1,0 +1,30 @@
+{
+  "manifest_version": 2,
+  "short_name": "Kennedy",
+  "name": "Kennedy",
+  "version": "0.0.2",
+  "browser_action": {
+    "default_popup": "index.html",
+    "default_title": "Open the popup"
+  },
+  "icons": {
+    "16": "logo192.png",
+    "48": "logo192.png",
+    "128": "logo512.png"
+  },
+  "oauth2": {
+    "client_id": "568713453158-37c8p5b63p7orh2d2cmsbsi2un33bv6q.apps.googleusercontent.com",
+    "scopes": ["openid", "email", "profile"]
+  },
+  "background": {
+    "scripts": ["background.js"]
+  },
+  "content_security_policy": "script-src 'unsafe-eval' 'self' https://apis.google.com https://kennedy-dev1.gojitech.systems; object-src 'self'",
+  "permissions": ["storage", "tabs", "activeTab", "identity", "*://*.google.com/*", "<all_urls>"],
+  "content_scripts": [
+    {
+      "matches": ["http://*/*", "https://*/*"],
+      "js": ["RecordRTC.js", "contentScript.js"]
+    }
+  ]
+}

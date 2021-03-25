@@ -1,6 +1,6 @@
 {
   "manifest_version": 2,
-  "short_name": "React App",
+  "short_name": "Kennedy",
   "name": "Kennedy",
   "version": "0.0.1",
   "browser_action": {
@@ -13,13 +13,13 @@
     "128": "logo512.png"
   },
   "oauth2": {
-    "client_id": "14205368595-lukg4cg87gim7e73bm8fp57lmdqrfpnb.apps.googleusercontent.com",
+    "client_id": "568713453158-37c8p5b63p7orh2d2cmsbsi2un33bv6q.apps.googleusercontent.com",
     "scopes": ["openid", "email", "profile"]
   },
   "background": {
     "scripts": ["background.js"]
   },
-  "content_security_policy": "script-src 'unsafe-eval' 'self' https://apis.google.com; object-src 'self'",
+  "content_security_policy": "script-src 'unsafe-eval' 'self' https://apis.google.com https://kennedy-staging1.gojitech.systems; object-src 'self'",
   "permissions": ["storage", "tabs", "activeTab", "identity", "*://*.google.com/*", "<all_urls>"],
   "content_scripts": [
     {

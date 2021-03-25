@@ -14,6 +14,7 @@ function MedicHistory({ history, onClickItem }) {
     document.querySelector("body").style.width = "360px";
     document.querySelector(".prescription-container").style.paddingRight = "0px";
     document.querySelector(".history-container").style.display = "none";
+    document.querySelector(".footer-wrapper").style.left = "74%";
   };
   const handleClickItem = (obj) => {
     onClickItem(obj);

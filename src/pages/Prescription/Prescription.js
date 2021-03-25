@@ -1,6 +1,5 @@
 /*global chrome*/
 import React, { useState, useEffect } from "react";
-import { LogoIcon } from "../../assets/icons/LogoIcon";
 import { SmallMicIcon } from "../../assets/icons/SmallMicIcon";
 import { MicIcon } from "../../assets/icons/MicIcon";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -15,6 +14,8 @@ import { v4 as uuidv4 } from "uuid";
 import "./Prescription.scss";
 import { goTo } from "react-chrome-extension-router";
 import { getCurrentDate, getDateFromDuration } from "../../utils";
+import Footer from "../../components/Footer/Footer";
+import TopLogo from "../../components/TopLogo/TopLogo";
 import regeneratorRuntime from "regenerator-runtime";
 const getObjectFromLocalStorage = async (key) => {
   return new Promise((resolve, reject) => {
@@ -32,7 +33,6 @@ function Prescription({ prescriptionData }) {
   const console = {
     log: (info) => chrome.extension.getBackgroundPage().console.log(info),
   };
-
   const [checked, setChecked] = useState(false);
   const [userInfo, setUserInfo] = useState();
   const [propsData, setPropsData] = useState([]);
@@ -47,6 +47,7 @@ function Prescription({ prescriptionData }) {
     document.querySelector(".prescription-container").style.width = "337px";
     document.querySelector(".prescription-container").style.paddingRight = "23px";
     document.querySelector(".history-container").style.width = "360px";
+    document.querySelector(".footer-wrapper").style.left = "84%";
   };
 
   useEffect(() => {
@@ -109,6 +110,7 @@ function Prescription({ prescriptionData }) {
             cart_id: cartID,
             query: propsData.query,
             drug_name: propsData.drugName,
+            drug_total: propsData.drugTotal,
             drug_dosage: propsData.drugDosage,
             drug_size: propsData.drugSize,
             drug_duration: propsData.drugDuration,
@@ -156,6 +158,7 @@ function Prescription({ prescriptionData }) {
             cart_id: "",
             query: propsData.query,
             drug_name: propsData.drugName,
+            drug_total: propsData.drugTotal,
             drug_dosage: propsData.drugDosage,
             drug_size: propsData.drugSize,
             drug_duration: propsData.drugDuration,
@@ -188,7 +191,7 @@ function Prescription({ prescriptionData }) {
           <div className="logo-wrapper">
             <div className="row align-items-center">
               <div className="col-3">
-                <LogoIcon />
+                <TopLogo />
               </div>
               <div className="col-9">
                 <span style={{ color: "#c42753" }}>{propsData && propsData.query}</span>
@@ -215,7 +218,7 @@ function Prescription({ prescriptionData }) {
           <div className="d-flex mt-3 prescription-item">
             <div>
               <label>Medication</label>
-              <p>{propsData && propsData.drugName + propsData && propsData.drugSize}</p>
+              <p>{propsData && propsData.drugName}</p>
             </div>
             <SmallMicIcon />
           </div>
@@ -233,7 +236,7 @@ function Prescription({ prescriptionData }) {
               <div className="d-flex mt-3 prescription-item">
                 <div>
                   <label>Quantity</label>
-                  <p>{propsData && propsData.drugDosage}</p>
+                  <p>{propsData && propsData.drugTotal}</p>
                 </div>
                 <SmallMicIcon />
               </div>
@@ -305,6 +308,7 @@ function Prescription({ prescriptionData }) {
         </div>
       </div>
       <MedicHistory history={history} onClickItem={handleClickItem} />
+      <Footer />
     </div>
   );
 }

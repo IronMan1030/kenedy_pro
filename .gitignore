@@ -6,6 +6,7 @@
 # Node artifact files
 node_modules/
 dist/
+build
 # Compiled Java class files
 *.class
 
@@ -38,7 +39,7 @@ Thumbs.db
 *.app
 *.exe
 *.war
-
+.env.*
 # Large media files
 *.mp4
 *.tiff

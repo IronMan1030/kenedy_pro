@@ -1,13 +1,13 @@
 {
-  "name": "kenedy_pro",
+  "name": "kennedy_chrome",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "webpack",
+    "build": "webpack --env env=production",
+    "dev": "webpack --env env=development",
     "build:prod": "webpack",
-    "dev": "webpack serve --mode=development",
     "start": "webpack serve"
   },
   "keywords": [],
@@ -18,7 +18,9 @@
     "react": "^17.0.1",
     "react-chrome-extension-router": "^1.2.0",
     "react-dom": "^17.0.1",
-    "react-router-dom": "^5.2.0"
+    "react-router-dom": "^5.2.0",
+    "reactstrap": "^8.9.0",
+    "webpack-merge": "^5.7.3"
   },
   "devDependencies": {
     "@babel/core": "^7.13.10",
